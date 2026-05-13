@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/chat.css">
+    <title>ESPEChat</title>
+</head>
+<body>
+    <header>
+      <nav aria-label="Navegación principal">
+        <h1>ESPEChat</h1>
+        <div class="nav-links">
+          <a href="/" class="nav-link">Salir de la sala</a>
+        </div>
+      </nav>
+    </header>
+    <main class="chat-main">
+        <div class="chat-container card">
+            <div class="chat-header">
+                <h2>Sala General</h2>
+                <p>Chat en tiempo real</p>
+            </div>
+            <div class="chat-body">
+                <ul id="messages"></ul>
+                <p id="typing-indicator"></p>
+            </div>
+            <div class="chat-footer">
+                <form id="chat-form">
+                    <div class="input-group">
+                        <input type="text" id="message-input" placeholder="Escribe un mensaje..." autocomplete="off" />
+                    </div>
+                    <button type="submit" class="btn primary send-btn">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
