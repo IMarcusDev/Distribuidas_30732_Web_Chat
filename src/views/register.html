@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/register.css" />
+    <title>Registrarse — ESPEChat</title>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Navegación principal">
+        <h1>ESPEChat</h1>
+        <a href="/" class="nav-link">Iniciar sesión</a>
+      </nav>
+    </header>
+
+    <main>
+      <section aria-labelledby="register-heading">
+        <form id="register-form" novalidate>
+          <fieldset>
+            <legend id="register-heading">Crear cuenta</legend>
+
+            <div class="input-group">
+              <label for="username">Nombre de usuario</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Tu nombre de usuario"
+                required
+                autocomplete="username"
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="profile">Sube tu foto de perfil</label>
+              <input
+                type="file"
+                id="profile"
+                name="profile"
+                required
+                accept=".jpg, .jpeg, .png"
+              />
+            </div>
+
+            <div class="button-container">
+              <button type="submit" id="login">Registrarse</button>
+            </div>
+          </fieldset>
+        </form>
+
+        <p class="auth-redirect">
+          ¿Ya tienes cuenta? <a href="/">Inicia sesión</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 ESPEChat — Universidad de las Fuerzas Armadas ESPE</p>
+    </footer>
+    <script src="js/register.js"></script>
+  </body>
+</html>

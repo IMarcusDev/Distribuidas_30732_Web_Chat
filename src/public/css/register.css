@@ -1,0 +1,74 @@
+main {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+main form {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid #006633;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+main form fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+main form fieldset legend {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #006633;
+  margin-bottom: 8px;
+}
+
+.auth-redirect {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: #444444;
+}
+
+.auth-redirect a {
+  color: #006633;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-redirect a:hover {
+  text-decoration: underline;
+}
+
+main form .input-group label {
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #006633;
+}
+
+main form .button-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+main form .button-container button {
+  background-color: #006633;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+main form .button-container button:hover {
+  background-color: #ffd700;
+  color: #000000; 
+}
