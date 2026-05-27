@@ -1,48 +1,48 @@
 module.exports = (httpServer) => {
     const { Server } = require("socket.io");
-    const io = new Server(httpServer);
+    const socketServer = new Server(httpServer); // corregido de: io
 
     function parseCookies(cookieHeader) {
-        const list = {};
-        if (!cookieHeader) return list;
-        cookieHeader.split(`;`).forEach(function(cookie) {
-            let [name, ...rest] = cookie.split(`=`);
-            name = name?.trim();
-            if (!name) return;
-            const value = rest.join(`=`).trim();
-            if (!value) return;
-            list[name] = decodeURIComponent(value);
+        const cookies = {}; // corregido de: list
+        if (!cookieHeader) return cookies;
+        cookieHeader.split(`;`).forEach(function (rawCookie) { // corregido de: cookie
+            let [cookieName, ...cookieValueParts] = rawCookie.split(`=`); // corregido de: name, ...rest
+            cookieName = cookieName?.trim();
+            if (!cookieName) return;
+            const cookieValue = cookieValueParts.join(`=`).trim(); // corregido de: value
+            if (!cookieValue) return;
+            cookies[cookieName] = decodeURIComponent(cookieValue);
         });
-        return list;
+        return cookies;
     }
 
-    io.on("connection", socket => {
+    socketServer.on("connection", socket => {
         console.log("conectado:", socket.id);
 
         const cookies = parseCookies(socket.handshake.headers.cookie);
-        const userReal = cookies.username || 'Anónimo';
-        const avatarReal = cookies.avatar || '/img/Profile.jpeg';
+        const currentUsername = cookies.username || 'Anónimo'; // corregido de: userReal
+        const currentAvatar = cookies.avatar || '/img/Profile.jpeg'; // corregido de: avatarReal
 
-        socket.on("chat message", (msg) => {
-            if (!msg || typeof msg.text !== 'string' || msg.text.trim() === '') {
-                return; 
+        socket.on("chat message", (incomingMessage) => { // corregido de: msg
+            if (!incomingMessage || typeof incomingMessage.text !== 'string' || incomingMessage.text.trim() === '') {
+                return;
             }
 
-            const mensajeSeguro = {
-                text: msg.text.trim(),
-                username: userReal,
-                avatar: avatarReal,
+            const safeMessage = { // corregido de: mensajeSeguro
+                text: incomingMessage.text.trim(),
+                username: currentUsername,
+                avatar: currentAvatar,
                 time: Date.now()
             };
 
-            io.emit("chat message", mensajeSeguro);
+            socketServer.emit("chat message", safeMessage);
         });
 
-        socket.on("typing", (data) => {
-            if (data && typeof data.isTyping === 'boolean') {
+        socket.on("typing", (typingData) => { // corregido de: data
+            if (typingData && typeof typingData.isTyping === 'boolean') {
                 socket.broadcast.emit("typing", {
-                    isTyping: data.isTyping,
-                    username: userReal 
+                    isTyping: typingData.isTyping,
+                    username: currentUsername
                 });
             }
         });

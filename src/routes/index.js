@@ -4,43 +4,43 @@ const path = require("path");
 const multer = require("multer");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const views = path.join(__dirname, "../views");
-const imgDir = path.join(__dirname, "../public/img");
+const viewsDirectory = path.join(__dirname, "../views"); // corregido de: views
+const imagesDirectory = path.join(__dirname, "../public/img"); // corregido de: imgDir
 
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, imgDir),
-    filename: (_req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase();
-        cb(null, `${Date.now()}${ext}`);
+const profileImageStorage = multer.diskStorage({ // corregido de: storage
+    destination: (_req, _file, callback) => callback(null, imagesDirectory), // corregido de: cb
+    filename: (_req, file, callback) => {
+        const fileExtension = path.extname(file.originalname).toLowerCase(); // corregido de: ext
+        callback(null, `${Date.now()}${fileExtension}`);
     },
 });
 
-const upload = multer({
-    storage,
-    fileFilter: (_req, file, cb) => {
-        const allowed = [".jpg", ".jpeg", ".png"];
-        if (allowed.includes(path.extname(file.originalname).toLowerCase())) {
-            cb(null, true);
+const uploadProfileImage = multer({ // corregido de: upload
+    storage: profileImageStorage,
+    fileFilter: (_req, file, callback) => {
+        const allowedExtensions = [".jpg", ".jpeg", ".png"]; // corregido de: allowed
+        if (allowedExtensions.includes(path.extname(file.originalname).toLowerCase())) {
+            callback(null, true);
         } else {
-            cb(new Error("Solo se permiten imágenes JPG y PNG"));
+            callback(new Error("Solo se permiten imágenes JPG y PNG"));
         }
     },
     limits: { fileSize: 5 * 1024 * 1024 },
 });
 
 router.get("/", (_req, res) => {
-    res.sendFile(path.join(views, "/index.html"));
+    res.sendFile(path.join(viewsDirectory, "/index.html"));
 });
 
 router.get("/register", (_req, res) => {
-    res.sendFile(path.join(views, "/register.html"));
+    res.sendFile(path.join(viewsDirectory, "/register.html"));
 });
 
-router.get("/chat", isLoggedIn , (_req, res) => {
-    res.sendFile(path.join(views, "/chat.html"));
+router.get("/chat", isLoggedIn, (_req, res) => {
+    res.sendFile(path.join(viewsDirectory, "/chat.html"));
 });
 
-router.post("/register", upload.single("profile"), (req, res) => {
+router.post("/register", uploadProfileImage.single("profile"), (req, res) => {
     const { username } = req.body;
 
     if (!username || !req.file) {

@@ -1,28 +1,28 @@
-const form = document.querySelector('#register-form');
+const registerForm = document.querySelector('#register-form'); // corregido de: form
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+registerForm.addEventListener('submit', async (submitEvent) => { // corregido de: e
+    submitEvent.preventDefault();
 
     const username = document.querySelector('#username').value.trim();
-    const fileInput = document.querySelector('#profile');
-    const file = fileInput.files[0];
+    const profileImageInput = document.querySelector('#profile'); // corregido de: fileInput
+    const profileImageFile = profileImageInput.files[0]; // corregido de: file
 
     if (!username) {
         alert('Por favor ingresa un nombre de usuario');
         return;
     }
-    if (!file) {
+    if (!profileImageFile) {
         alert('Por favor selecciona una foto de perfil');
         return;
     }
 
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('profile', file);
+    const registerFormData = new FormData(); // corregido de: formData
+    registerFormData.append('username', username);
+    registerFormData.append('profile', profileImageFile);
 
-    const res = await fetch('/register', { method: 'POST', body: formData });
+    const registerResponse = await fetch('/register', { method: 'POST', body: registerFormData }); // corregido de: res
 
-    if (res.ok) {
+    if (registerResponse.ok) {
         document.location.href = '/chat';
     } else {
         alert('Error al registrarse, intenta de nuevo');
